@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>greenmix — the fun & aesthetic closed-loop dental restoration system</title>
+  <meta name="description" content="A fun, crazy aesthetic closed-loop dental composite calculation, controlled dispensing, and restoration system.">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet">
+  <!-- Three.js for 3D Cavity Topography & Mesh Visualization -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+</head>
+<body class="clicky-theme">
+
+  <!-- ================= RETRO MAC OS TOP MENUBAR ================= -->
+  <header class="mac-menubar">
+    <div class="menubar-left">
+      <span class="mac-apple-logo">🦷</span>
+      <span class="menubar-title">greenmixOS</span>
+      <nav class="menubar-nav">
+        <button class="menu-link active" data-tab="tab-scan">scanner.app</button>
+        <button class="menu-link" data-tab="tab-3d">3d-relief.obj</button>
+        <button class="menu-link" data-tab="tab-dispense">composite-lab.tool</button>
+        <button class="menu-link" data-tab="tab-closed-loop">validator.sys</button>
+        <button class="menu-link" data-tab="tab-report">dossier.doc</button>
+      </nav>
+    </div>
+
+    <!-- Center Playful Marquee / Tag -->
+    <div class="menubar-center">
+      <div class="lofi-player" id="lofi-player-btn" title="Toggle Lo-Fi Dental Synth Ambient Vibes">
+        <span class="music-note">🎵</span>
+        <span class="player-text">lo-fi beats to cure resin to</span>
+        <div class="sound-bars playing">
+          <i></i><i></i><i></i><i></i><i></i>
+        </div>
+      </div>
+    </div>
+
+    <div class="menubar-right">
+      <!-- Sound FX Toggle Button -->
+      <button id="btn-toggle-sound" class="menubar-pill-btn sound-active" title="Toggle Mechanical Keyboard & Dental Sound FX">
+        <span id="sound-icon">🔊</span>
+        <span id="sound-label">sound: ON</span>
+      </button>
+
+      <!-- Battery & Status -->
+      <div class="status-pill">
+        <span class="live-dot"></span>
+        <span>probe: ready</span>
+      </div>
+
+      <div class="battery-indicator">
+        <div class="battery-shell"><div class="battery-fill"></div></div>
+        <span>100%</span>
+      </div>
+
+      <!-- Live Clock -->
+      <span id="mac-clock" class="mac-clock">8:04 PM</span>
+    </div>
+  </header>
+
+
+  <!-- ================= APP STAGE ================= -->
+  <div class="desktop-stage">
+
+    <!-- Hero Header Banner -->
+    <div class="hero-fun-banner">
+      <div class="hero-titles">
+        <div class="fun-pill-badge">✨ THE FUTURE OF DENTAL RESTORATION ✨</div>
+        <h1 class="fun-headline">greenmix <span class="fun-gradient-text">precision</span></h1>
+        <p class="fun-subhead">
+          scan cavity geometry → calculate exact composite mass → dispense without waste → verify closed-loop magic!
+        </p>
+      </div>
+      
+      <!-- Action Quick Bar -->
+      <div class="hero-actions">
+        <button id="btn-quick-report" class="btn-fun-hero report-cta">
+          <span class="btn-fun-icon">📄</span>
+          <span>Clinical Dossier</span>
+          <div class="btn-shine"></div>
+        </button>
+      </div>
+    </div>
+
+    <!-- Active Navigation Tabs Styled like Y2K / HeyClicky Segmented Control -->
+    <nav class="retro-tabs-bar" aria-label="Workflow Navigation">
+      <button class="retro-tab active" data-tab="tab-scan">
+        <span class="tab-icon">📷</span>
+        <span class="tab-title">1. Cavity Scanner</span>
+        <span class="tab-chip">ai probe</span>
+      </button>
+      <button class="retro-tab" data-tab="tab-3d">
+        <span class="tab-icon">🌐</span>
+        <span class="tab-title">2. 3D Relief Mesh</span>
+        <span class="tab-chip">three.js</span>
+      </button>
+      <button class="retro-tab" data-tab="tab-dispense">
+        <span class="tab-icon">💉</span>
+        <span class="tab-title">3. Composite Lab</span>
+        <span class="tab-chip">dispenser</span>
+      </button>
+      <button class="retro-tab" data-tab="tab-closed-loop">
+        <span class="tab-icon">🔄</span>
+        <span class="tab-title">4. Closed-Loop QA</span>
+        <span class="tab-chip">feedback</span>
+      </button>
+      <button class="retro-tab" data-tab="tab-report">
+        <span class="tab-icon">📋</span>
+        <span class="tab-title">5. Clinical Protocol</span>
+        <span class="tab-chip">dossier</span>
+      </button>
+    </nav>
+
+    <!-- Main Workspace Content -->
+    <main class="desktop-content">
+      
+      <!-- ================= TAB 1: CAVITY SCAN & GEOMETRY ================= -->
+      <section id="tab-scan" class="tab-content active">
+        <div class="fun-two-col">
+          
+          <!-- Left: Scanner Window with Retro Mac Chrome -->
+          <div class="retro-window">
+            <div class="window-titlebar">
+              <div class="window-traffic-lights">
+                <span class="traffic-dot dot-close"></span>
+                <span class="traffic-dot dot-min"></span>
+                <span class="traffic-dot dot-zoom"></span>
+              </div>
+              <div class="window-title">
+                <span class="title-icon">📷</span>
+                <span>CavityOpticalScanner.app — High Precision Optical Feed</span>
+              </div>
+              <div class="window-actions">
+                <button id="btn-toggle-overlay" class="win-btn active">Contour Glow</button>
+                <button id="btn-toggle-depth-tint" class="win-btn">Depth Heatmap</button>
+                <button id="btn-reset-zoom" class="win-btn">Reset</button>
+              </div>
+            </div>
+
+            <!-- Viewport with Interactive Canvas & Actinic Light Effect Overlay -->
+            <div class="viewport-box" id="viewport-container">
+              <canvas id="cavity-canvas" width="800" height="800"></canvas>
+              
+              <!-- Curing Light Beam Overlay (Triggered on fire cure gun) -->
+              <div id="actinic-beam-overlay" class="actinic-light-beam">
+                <div class="beam-rays"></div>
+                <div class="cure-countdown-hud">
+                  <span class="cure-laser-icon">⚡ 470nm BLUE ACTINIC LIGHT</span>
+                  <div class="cure-timer-text" id="cure-timer-display">10.0s</div>
+                  <div class="cure-progress-bar"><div class="cure-progress-fill" id="cure-progress-fill"></div></div>
+                  <span class="cure-subtext">Polymerizing resin matrix monomer into cross-linked network...</span>
+                </div>
+              </div>
+
+              <!-- Floating Tooltip Chip -->
+              <div id="calibration-tooltip" class="floating-hud-pill">
+                <span>Mode: <strong>Scale Calibration</strong> — Drag green ruler between two known points</span>
+              </div>
+            </div>
+
+            <!-- Window Bottom Toolbelt -->
+            <div class="window-bottom-bar">
+              <div class="tool-selector-pill">
+                <button id="tool-calibrate" class="tool-chip active" title="Calibrate physical millimeter scale">
+                  <span class="chip-emoji">📏</span> 2-Point Scale Ruler
+                </button>
+                <button id="tool-inspect" class="tool-chip" title="Inspect local coordinates and depth">
+                  <span class="chip-emoji">🔍</span> Depth Probe
+                </button>
+              </div>
+
+              <div class="live-telemetry">
+                <span>Scale: <strong id="val-scale-display" class="highlight-cyan">50.0 px/mm</strong></span>
+                <span class="sep">|</span>
+                <span>Depth: <strong id="val-probe-depth" class="highlight-emerald">0.0 mm</strong></span>
+              </div>
+            </div>
+            <div class="window-caption-foot">cavity-scan-optical.mov — [Live Stream Ready]</div>
+          </div>
+
+          <!-- Right: Interactive Controls & Live Metrics Cards -->
+          <div class="fun-sidebar">
+            
+            <!-- Sample Selector Window -->
+            <div class="retro-window compact">
+              <div class="window-titlebar">
+                <div class="window-traffic-lights">
+                  <span class="traffic-dot dot-close"></span>
+                  <span class="traffic-dot dot-min"></span>
+                  <span class="traffic-dot dot-zoom"></span>
+                </div>
+                <div class="window-title">📂 CaseLibrary.folder</div>
+              </div>
+              <div class="window-body">
+                <p class="section-microtag">CHOOSE CLINICAL PHOTO OR DROP YOUR OWN:</p>
+                <div class="case-grid-fun">
+                  <button class="case-card-fun active" data-case="user_case_1">
+                    <span class="case-badge-user">USER PHOTO 1</span>
+                    <span class="case-card-name">Patient Molar</span>
+                    <span class="case-card-detail">Class I Dentin Cavity</span>
+                  </button>
+                  <button class="case-card-fun" data-case="user_case_2">
+                    <span class="case-badge-user">USER PHOTO 2</span>
+                    <span class="case-card-name">Molar Prep</span>
+                    <span class="case-card-detail">Typodont Class I</span>
+                  </button>
+                  <button class="case-card-fun" data-case="case_1">
+                    <span class="case-badge-bench">BENCHMARK</span>
+                    <span class="case-card-name">Standard Molar</span>
+                    <span class="case-card-detail">5.0mm Scale Bar</span>
+                  </button>
+                  <button class="case-card-fun" data-case="case_2">
+                    <span class="case-badge-bench">BENCHMARK</span>
+                    <span class="case-card-name">Premolar MO</span>
+                    <span class="case-card-detail">Proximal Slot</span>
+                  </button>
+                </div>
+
+                <!-- Fun Dropzone -->
+                <div class="fun-dropzone" id="cavity-dropzone">
+                  <input type="file" id="cavity-file-input" accept="image/*" class="file-input-hidden">
+                  <span class="drop-emoji">📤</span>
+                  <p class="drop-main-txt">Drop any tooth image here or <span class="sparkle-link">browse</span></p>
+                  <span class="drop-sub-txt">Supports .jpg, .png, .webp (high-res clinical photos)</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Optical Scale & Depth Parameters Window -->
+            <div class="retro-window compact">
+              <div class="window-titlebar">
+                <div class="window-traffic-lights">
+                  <span class="traffic-dot dot-close"></span>
+                  <span class="traffic-dot dot-min"></span>
+                  <span class="traffic-dot dot-zoom"></span>
+                </div>
+                <div class="window-title">⚙️ CalibrationSettings.pref</div>
+              </div>
+              <div class="window-body">
+                <div class="fun-field">
+                  <label for="input-marker-length">Reference Length (mm):</label>
+                  <div class="fun-input-group">
+                    <input type="number" id="input-marker-length" value="10.5" step="0.1" min="0.5" max="30.0">
+                    <span class="fun-unit">mm</span>
+                  </div>
+                </div>
+
+                <div class="fun-field">
+                  <div class="field-split-label">
+                    <label for="slider-sensitivity">Contour AI Sensitivity:</label>
+                    <span id="val-sensitivity" class="fun-badge-val">1.0x</span>
+                  </div>
+                  <input type="range" id="slider-sensitivity" min="0.5" max="1.8" step="0.05" value="1.0">
+                </div>
+
+                <div class="fun-field">
+                  <label for="input-depth-hint">Maximum Depth Hint (mm):</label>
+                  <div class="fun-input-group">
+                    <input type="number" id="input-depth-hint" value="2.5" step="0.1" min="0.5" max="8.0">
+                    <span class="fun-unit">mm</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Real-Time Metrics Window with Vibrant Cards -->
+            <div class="retro-window fun-hero-card">
+              <div class="window-titlebar">
+                <div class="window-traffic-lights">
+                  <span class="traffic-dot dot-close"></span>
+                  <span class="traffic-dot dot-min"></span>
+                  <span class="traffic-dot dot-zoom"></span>
+                </div>
+                <div class="window-title">📊 LiveCavityMetrics.ai</div>
+                <div class="badge-ai-pulsing">✨ LIVE</div>
+              </div>
+              
+              <div class="window-body">
+                <div class="fun-metrics-grid">
+                  <div class="fun-metric-box volume-box">
+                    <span class="f-label">Cavity Volume (V)</span>
+                    <div class="f-val-wrap">
+                      <span id="metric-volume" class="f-val glow-text">19.3</span>
+                      <span class="f-unit">mm³ (µL)</span>
+                    </div>
+                  </div>
+
+                  <div class="fun-metric-box">
+                    <span class="f-label">Max Cavity Depth</span>
+                    <div class="f-val-wrap">
+                      <span id="metric-max-depth" class="f-val">2.8</span>
+                      <span class="f-unit">mm</span>
+                    </div>
+                  </div>
+
+                  <div class="fun-metric-box">
+                    <span class="f-label">Mesiodistal Length</span>
+                    <div class="f-val-wrap">
+                      <span id="metric-length" class="f-val">3.0</span>
+                      <span class="f-unit">mm</span>
+                    </div>
+                  </div>
+
+                  <div class="fun-metric-box">
+                    <span class="f-label">Buccolingual Width</span>
+                    <div class="f-val-wrap">
+                      <span id="metric-width" class="f-val">6.9</span>
+                      <span class="f-unit">mm</span>
+                    </div>
+                  </div>
+
+                  <div class="fun-metric-box">
+                    <span class="f-label">Opening Surface Area</span>
+                    <div class="f-val-wrap">
+                      <span id="metric-area" class="f-val">10.1</span>
+                      <span class="f-unit">mm²</span>
+                    </div>
+                  </div>
+
+                  <div class="fun-metric-box cfactor-box">
+                    <span class="f-label">C-Factor (Stress)</span>
+                    <div class="f-val-wrap">
+                      <span id="metric-c-factor" class="f-val highlight-amber">4.2</span>
+                      <span class="f-unit">High Stress</span>
+                    </div>
+                  </div>
+                </div>
+
+                <button id="btn-goto-dispense" class="btn-fun-primary btn-block">
+                  <span>Proceed to Composite Lab & Dispense</span>
+                  <span class="btn-arrow">→</span>
+                  <div class="btn-shine"></div>
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= TAB 2: 3D MORPHOLOGY & DEPTH ================= -->
+      <section id="tab-3d" class="tab-content">
+        <div class="fun-two-col">
+          <!-- 3D WebGL Canvas Window -->
+          <div class="retro-window">
+            <div class="window-titlebar">
+              <div class="window-traffic-lights">
+                <span class="traffic-dot dot-close"></span>
+                <span class="traffic-dot dot-min"></span>
+                <span class="traffic-dot dot-zoom"></span>
+              </div>
+              <div class="window-title">
+                <span class="title-icon">🌐</span>
+                <span>Topography3D.app — Interactive WebGL Cavity Mesh</span>
+              </div>
+              <div class="window-actions">
+                <button id="btn-3d-wireframe" class="win-btn">Wireframe</button>
+                <button id="btn-3d-reset-cam" class="win-btn">Reset Orbit</button>
+              </div>
+            </div>
+
+            <div id="three-container" class="viewport-box">
+              <!-- Three.js injected canvas -->
+              <div class="fun-legend-box">
+                <div class="legend-hdr">Depth Elevation Heatmap</div>
+                <div class="legend-color-strip"></div>
+                <div class="legend-numbers">
+                  <span>0mm (Enamel)</span>
+                  <span id="legend-mid-depth">1.3mm</span>
+                  <span id="legend-max-depth">2.8mm (Pulp Floor)</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="window-bottom-bar">
+              <div class="slice-slider-fun">
+                <span class="slice-emoji">🔪</span>
+                <label for="slider-slice">Coronal Depth Cross-Section:</label>
+                <input type="range" id="slider-slice" min="0" max="100" value="50">
+                <span id="val-slice-depth" class="fun-badge-val">50%</span>
+              </div>
+              <span class="nav-hint-txt">💡 Drag mouse to orbit • Scroll to zoom • Right-click to pan</span>
+            </div>
+            <div class="window-caption-foot">cavity-mesh-relief-threejs.obj — [60 FPS Hardware Accelerated]</div>
+          </div>
+
+          <!-- 3D Analysis Sidebar -->
+          <div class="fun-sidebar">
+            <div class="retro-window">
+              <div class="window-titlebar">
+                <div class="window-traffic-lights">
+                  <span class="traffic-dot dot-close"></span>
+                  <span class="traffic-dot dot-min"></span>
+                  <span class="traffic-dot dot-zoom"></span>
+                </div>
+                <div class="window-title">📈 CrossSectionProfile.chart</div>
+              </div>
+              <div class="window-body">
+                <div class="chart-canvas-wrap">
+                  <canvas id="profile-canvas" width="360" height="150"></canvas>
+                </div>
+                <div class="profile-key-strip">
+                  <span><i class="dot-enamel"></i> Enamel Cusp</span>
+                  <span><i class="dot-dentin"></i> Prepared Floor</span>
+                  <span><i class="dot-comp"></i> Planned Composite</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="retro-window">
+              <div class="window-titlebar">
+                <div class="window-traffic-lights">
+                  <span class="traffic-dot dot-close"></span>
+                  <span class="traffic-dot dot-min"></span>
+                  <span class="traffic-dot dot-zoom"></span>
+                </div>
+                <div class="window-title">✨ MorphologyAudit.log</div>
+              </div>
+              <div class="window-body">
+                <div class="fun-spec-table">
+                  <div class="spec-row">
+                    <span class="spec-k">Floor Smoothness:</span>
+                    <span class="spec-v highlight-cyan">Uniform Flat Bed</span>
+                  </div>
+                  <div class="spec-row">
+                    <span class="spec-k">Internal Line Angles:</span>
+                    <span class="spec-v highlight-emerald">Smooth Rounded (No Stress Conc.)</span>
+                  </div>
+                  <div class="spec-row">
+                    <span class="spec-k">Draft Taper Angle:</span>
+                    <span class="spec-v highlight-amber">6° - 8° Divergent</span>
+                  </div>
+                  <div class="spec-row">
+                    <span class="spec-k">Undercut Risk:</span>
+                    <span class="spec-v highlight-emerald">Zero (Self-Draining)</span>
+                  </div>
+                </div>
+
+                <div class="fun-callout-sticker">
+                  <span>🦷 <strong>Did you know?</strong> Rounding internal line angles reduces masticatory stress concentration by up to 40%!</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= TAB 3: MATERIAL & DISPENSING ================= -->
+      <section id="tab-dispense" class="tab-content">
+        <div class="fun-two-col">
+          
+          <!-- Left: Visual Tooth Section & Layering Protocol -->
+          <div class="retro-window">
+            <div class="window-titlebar">
+              <div class="window-traffic-lights">
+                <span class="traffic-dot dot-close"></span>
+                <span class="traffic-dot dot-min"></span>
+                <span class="traffic-dot dot-zoom"></span>
+              </div>
+              <div class="window-title">
+                <span class="title-icon">💉</span>
+                <span>AnatomicalLayeringProtocol.app — Incremental Curing Guide</span>
+              </div>
+              <div id="layer-badge-info" class="badge-tag-fun">2 Increments Planned</div>
+            </div>
+
+            <div class="layering-playground">
+              <!-- Visual Tooth Schematic with Layer Build-up -->
+              <div class="fun-tooth-schematic" id="tooth-schematic">
+                <div class="fun-cusp cusp-left">
+                  <span class="cusp-label">Buccal Cusp</span>
+                </div>
+                <div class="fun-cavity-well" id="cavity-well">
+                  <!-- Dynamically populated layers -->
+                </div>
+                <div class="fun-cusp cusp-right">
+                  <span class="cusp-label">Lingual Cusp</span>
+                </div>
+              </div>
+
+              <!-- Interactive Squeeze Dispenser Playground -->
+              <div class="extrusion-playground-bar">
+                <div class="extrusion-info">
+                  <span class="ext-title">🎮 Interactive Micro-Dispenser:</span>
+                  <span class="ext-sub">Click to simulate controlled syringe extrusion clicks!</span>
+                </div>
+                <button id="btn-extrude-drop" class="btn-extrude-clicky">
+                  <span>💉 Click to Extrude 1 Click (~5 mg)</span>
+                </button>
+              </div>
+
+              <!-- Layering Table -->
+              <div class="layers-table-card">
+                <table class="fun-layers-table">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>Step</th>
+                      <th>Thickness</th>
+                      <th>Volume</th>
+                      <th>Mass</th>
+                      <th>Cure Time</th>
+                      <th>Anatomical Strategy</th>
+                    </tr>
+                  </thead>
+                  <tbody id="layers-tbody">
+                    <!-- Dynamic -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- Controlled Dispenser Integration -->
+            <div class="window-bottom-bar hardware-bar">
+              <div class="hardware-item">
+                <span class="h-label">Compule Dose:</span>
+                <span id="val-compule-frac" class="h-val">0.17 compule</span>
+              </div>
+              <div class="hardware-item">
+                <span class="h-label">Syringe Plunger Turns:</span>
+                <span id="val-syringe-turns" class="h-val">0.70 turns</span>
+              </div>
+              <div class="hardware-item">
+                <span class="h-label">Digital Micro-Stepper:</span>
+                <span id="val-micro-steps" class="h-val">19.7 µL / 39 steps</span>
+              </div>
+            </div>
+            <div class="window-caption-foot">controlled-dispenser-driver.sys — [Stepper Ready]</div>
+          </div>
+
+          <!-- Right: Material Selection & Math Calculation -->
+          <div class="fun-sidebar">
+            
+            <div class="retro-window">
+              <div class="window-titlebar">
+                <div class="window-traffic-lights">
+                  <span class="traffic-dot dot-close"></span>
+                  <span class="traffic-dot dot-min"></span>
+                  <span class="traffic-dot dot-zoom"></span>
+                </div>
+                <div class="window-title">🧪 SelectRestorativeResin.tool</div>
+              </div>
+              <div class="window-body">
+                <div class="fun-field">
+                  <label for="select-material">Commercial Composite Brand:</label>
+                  <select id="select-material" class="fun-select">
+                    <!-- Dynamic from JSON -->
+                  </select>
+                </div>
+
+                <div id="material-info-box" class="material-fun-card">
+                  <div class="mat-category-tag" id="mat-category">Universal Nanocomposite</div>
+                  <div class="mat-big-title" id="mat-title">3M Filtek Supreme Ultra</div>
+                  <div class="mat-stats-grid">
+                    <div class="mat-stat">
+                      <span class="ms-lbl">Density (ρ):</span>
+                      <span id="mat-density" class="ms-val">2.10 g/cm³</span>
+                    </div>
+                    <div class="mat-stat">
+                      <span class="ms-lbl">Shrinkage (S%):</span>
+                      <span id="mat-shrinkage" class="ms-val highlight-amber">1.90%</span>
+                    </div>
+                    <div class="mat-stat">
+                      <span class="ms-lbl">Max Layer:</span>
+                      <span id="mat-max-layer" class="ms-val">2.0 mm</span>
+                    </div>
+                    <div class="mat-stat">
+                      <span class="ms-lbl">Filler Load:</span>
+                      <span id="mat-filler" class="ms-val">78.5 wt%</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Mathematical Equation Breakdown -->
+            <div class="retro-window fun-hero-card">
+              <div class="window-titlebar">
+                <div class="window-traffic-lights">
+                  <span class="traffic-dot dot-close"></span>
+                  <span class="traffic-dot dot-min"></span>
+                  <span class="traffic-dot dot-zoom"></span>
+                </div>
+                <div class="window-title">🧮 DispenseFormula.calc</div>
+              </div>
+              <div class="window-body">
+                <div class="formula-breakdown-card">
+                  <div class="f-line">
+                    <span>1. Net Cavity Volume:</span>
+                    <strong id="calc-net-vol">19.25 mm³</strong>
+                  </div>
+                  <div class="f-line">
+                    <span>2. Shrinkage Comp (+2.21%):</span>
+                    <strong id="calc-comp-vol" class="highlight-cyan">+0.42 mm³</strong>
+                  </div>
+                  <div class="f-line highlight-target">
+                    <span>3. Target Dispense Volume:</span>
+                    <strong id="calc-target-vol" class="highlight-emerald">19.67 mm³ (µL)</strong>
+                  </div>
+                  <div class="f-line highlight-mass">
+                    <span>4. Net Required Composite:</span>
+                    <strong id="calc-mass-mg" class="highlight-pink">41.3 mg (0.0413 g)</strong>
+                  </div>
+                </div>
+
+                <div class="fun-cfactor-alert">
+                  <span class="alert-emoji">⚠️</span>
+                  <div class="alert-content">
+                    <strong>C-Factor Alert (C = <span id="cfactor-advisory">4.2</span>):</strong>
+                    High bonded-to-unbonded ratio. Use 2mm incremental layers to break polymerization contraction vectors!
+                  </div>
+                </div>
+
+                <button id="btn-goto-closed-loop" class="btn-fun-primary btn-block">
+                  <span>Verify Post-Restoration QA</span>
+                  <span class="btn-arrow">→</span>
+                  <div class="btn-shine"></div>
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= TAB 4: CLOSED-LOOP VALIDATION ================= -->
+      <section id="tab-closed-loop" class="tab-content">
+        <div class="fun-two-col">
+          
+          <!-- Left: Post-op Comparison Window -->
+          <div class="retro-window">
+            <div class="window-titlebar">
+              <div class="window-traffic-lights">
+                <span class="traffic-dot dot-close"></span>
+                <span class="traffic-dot dot-min"></span>
+                <span class="traffic-dot dot-zoom"></span>
+              </div>
+              <div class="window-title">
+                <span class="title-icon">🔄</span>
+                <span>RestorationComparator.app — Optical Verification Heatmap</span>
+              </div>
+              <div class="window-actions">
+                <button id="btn-view-preop" class="win-btn">Pre-Op Cavity</button>
+                <button id="btn-view-postop" class="win-btn">Post-Op Restored</button>
+                <button id="btn-view-diff" class="win-btn active">Deviation Heatmap</button>
+              </div>
+            </div>
+
+            <div class="viewport-box" id="postop-viewport">
+              <canvas id="postop-canvas" width="800" height="800"></canvas>
+
+              <!-- Deviation Heatmap Legend -->
+              <div class="fun-deviation-hud">
+                <div class="d-chip"><span class="d-dot d-green"></span> Optimal Seal (&lt; 0.1mm)</div>
+                <div class="d-chip"><span class="d-dot d-blue"></span> Overfill Flash (&gt; +0.15mm)</div>
+                <div class="d-chip"><span class="d-dot d-red"></span> Underfill Margin (&lt; -0.15mm)</div>
+              </div>
+            </div>
+
+            <div class="window-bottom-bar">
+              <div class="postop-upload-fun">
+                <span class="upload-ico">📸</span>
+                <span>Upload Cured Post-Restoration Photo:</span>
+                <input type="file" id="postop-file-input" accept="image/*" class="file-input-inline">
+              </div>
+              <button id="btn-auto-align" class="win-btn">Auto-Align</button>
+            </div>
+            <div class="window-caption-foot">postop-deviation-verification.mov — [Closed Loop Validated]</div>
+          </div>
+
+          <!-- Right: QA Metrics & Self-Calibration Window -->
+          <div class="fun-sidebar">
+            <div class="retro-window fun-hero-card">
+              <div class="window-titlebar">
+                <div class="window-traffic-lights">
+                  <span class="traffic-dot dot-close"></span>
+                  <span class="traffic-dot dot-min"></span>
+                  <span class="traffic-dot dot-zoom"></span>
+                </div>
+                <div class="window-title">🏆 PostCureEvaluation.qa</div>
+                <div id="badge-eval-status" class="badge-status-optimal">OPTIMAL SEAL ✨</div>
+              </div>
+
+              <div class="window-body">
+                <div class="fun-metrics-grid">
+                  <div class="fun-metric-box">
+                    <span class="f-label">Actual Cured Volume</span>
+                    <div class="f-val-wrap">
+                      <span id="metric-post-vol" class="f-val highlight-emerald">19.4</span>
+                      <span class="f-unit">mm³</span>
+                    </div>
+                  </div>
+
+                  <div class="fun-metric-box">
+                    <span class="f-label">Volumetric Deviation</span>
+                    <div class="f-val-wrap">
+                      <span id="metric-delta-vol" class="f-val highlight-cyan">+0.17 mm³ (+0.86%)</span>
+                    </div>
+                  </div>
+
+                  <div class="fun-metric-box">
+                    <span class="f-label">Margin Flash Area</span>
+                    <div class="f-val-wrap">
+                      <span id="metric-flash-area" class="f-val">1.10</span>
+                      <span class="f-unit">mm²</span>
+                    </div>
+                  </div>
+
+                  <div class="fun-metric-box">
+                    <span class="f-label">Material Wastage Index</span>
+                    <div class="f-val-wrap">
+                      <span id="metric-waste-pct" class="f-val highlight-emerald">1.3%</span>
+                      <span class="f-unit">Minimal</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Fun Waste Comparison Bar -->
+                <div class="waste-fun-box">
+                  <div class="wb-hdr">⚡ Material Wastage vs. Conventional Dentistry:</div>
+                  <div class="wb-row">
+                    <span class="wb-title">Visual Guesswork:</span>
+                    <div class="wb-track"><div class="wb-fill fill-bad" style="width: 52%;"></div></div>
+                    <span class="wb-val">~45 - 55%</span>
+                  </div>
+                  <div class="wb-row">
+                    <span class="wb-title">Greenmix Digital:</span>
+                    <div class="wb-track"><div class="wb-fill fill-good" style="width: 12%;"></div></div>
+                    <span class="wb-val" id="greenmix-waste-display">1.3%</span>
+                  </div>
+                  <div class="wb-trophy-banner">
+                    🎉 <strong>Over 97% of dispensed composite is utilized!</strong> Saves money, saves material, prevents overfill burs finishing trauma!
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Adaptive Feedback Window -->
+            <div class="retro-window">
+              <div class="window-titlebar">
+                <div class="window-traffic-lights">
+                  <span class="traffic-dot dot-close"></span>
+                  <span class="traffic-dot dot-min"></span>
+                  <span class="traffic-dot dot-zoom"></span>
+                </div>
+                <div class="window-title">🧠 AdaptiveSelfCalibration.ai</div>
+              </div>
+              <div class="window-body">
+                <p class="section-microtag">CLOSED-LOOP EXPERIMENTAL UPDATE (β = 0.5):</p>
+                <div class="fun-spec-table">
+                  <div class="spec-row">
+                    <span class="spec-k">Current Factor (k):</span>
+                    <span id="val-k-current" class="spec-v">1.000</span>
+                  </div>
+                  <div class="spec-row">
+                    <span class="spec-k">Observed Discrepancy:</span>
+                    <span id="val-error-grad" class="spec-v highlight-cyan">-0.004</span>
+                  </div>
+                  <div class="spec-row">
+                    <span class="spec-k">Updated Factor (k_next):</span>
+                    <span id="val-k-next" class="spec-v highlight-emerald">0.996</span>
+                  </div>
+                </div>
+
+                <button id="btn-apply-calibration" class="btn-fun-secondary btn-block">
+                  <span>⚡ Update Greenmix Database with Calibration</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= TAB 5: CLINICAL REPORT ================= -->
+      <section id="tab-report" class="tab-content">
+        <div class="report-desktop-frame">
+          <div class="retro-window dossier-win">
+            <div class="window-titlebar">
+              <div class="window-traffic-lights">
+                <span class="traffic-dot dot-close"></span>
+                <span class="traffic-dot dot-min"></span>
+                <span class="traffic-dot dot-zoom"></span>
+              </div>
+              <div class="window-title">📄 ClinicalRestorationDossier.pdf — Official Patient Record</div>
+              <div class="window-actions">
+                <button onclick="window.print()" class="win-btn highlight">Print / Save PDF</button>
+              </div>
+            </div>
+
+            <div class="dossier-paper" id="printable-report">
+              <div class="dossier-header">
+                <div class="dossier-branding">
+                  <span class="dossier-logo">🦷 GREENMIX</span>
+                  <h2>CLINICAL RESTORATION DOSSIER</h2>
+                  <p>Closed-Loop Digital Dental Material & Geometric Quality Assurance Record</p>
+                </div>
+                <div class="dossier-stamp">
+                  <div class="official-seal">VERIFIED RESTORATION</div>
+                </div>
+              </div>
+
+              <div class="dossier-meta-bar">
+                <div>DATE: <strong id="report-date">2026-09-22</strong></div>
+                <div>CASE ID: <strong id="report-case-id">GM-982341</strong></div>
+                <div>TOOTH: <strong id="report-tooth">Mandibular First Molar (#36)</strong></div>
+              </div>
+
+              <div class="dossier-section">
+                <h3>1. Pre-Operative Optical Cavity Metrics</h3>
+                <div class="dossier-grid">
+                  <div class="d-cell"><span>Opening Surface Area:</span> <strong id="rep-area">10.1 mm²</strong></div>
+                  <div class="d-cell"><span>Mesiodistal Length:</span> <strong id="rep-len">3.0 mm</strong></div>
+                  <div class="d-cell"><span>Buccolingual Width:</span> <strong id="rep-wid">6.9 mm</strong></div>
+                  <div class="d-cell"><span>Maximum Depth:</span> <strong id="rep-depth">2.8 mm</strong></div>
+                  <div class="d-cell"><span>Net Cavity Volume:</span> <strong id="rep-vol" class="highlight-blue">19.3 mm³ (µL)</strong></div>
+                  <div class="d-cell"><span>C-Factor Rating:</span> <strong id="rep-cfactor">4.2 (High Stress)</strong></div>
+                </div>
+              </div>
+
+              <div class="dossier-section">
+                <h3>2. Composite Material & Dispensing Prescriptions</h3>
+                <div class="dossier-grid">
+                  <div class="d-cell"><span>Selected Brand:</span> <strong id="rep-mat-brand">3M Oral Care</strong></div>
+                  <div class="d-cell"><span>Product Name:</span> <strong id="rep-mat-name">Filtek Supreme Ultra</strong></div>
+                  <div class="d-cell"><span>Resin Density:</span> <strong id="rep-mat-density">2.10 g/cm³</strong></div>
+                  <div class="d-cell"><span>Volumetric Shrinkage:</span> <strong id="rep-mat-shrink">1.90%</strong></div>
+                  <div class="d-cell"><span>Compensated Dispense Vol:</span> <strong id="rep-comp-vol" class="highlight-blue">19.67 mm³</strong></div>
+                  <div class="d-cell"><span>Prescribed Mass:</span> <strong id="rep-mass" class="highlight-pink">41.3 mg</strong></div>
+                </div>
+              </div>
+
+              <div class="dossier-section">
+                <h3>3. Controlled Incremental Curing Schedule</h3>
+                <table class="dossier-table" id="report-layers-table">
+                  <thead>
+                    <tr>
+                      <th>Layer</th>
+                      <th>Anatomical Increment</th>
+                      <th>Thickness</th>
+                      <th>Volume</th>
+                      <th>Mass</th>
+                      <th>Light Cure Time</th>
+                    </tr>
+                  </thead>
+                  <tbody id="report-layers-tbody">
+                    <!-- Dynamic -->
+                  </tbody>
+                </table>
+              </div>
+
+              <div class="dossier-section">
+                <h3>4. Post-Restoration Closed-Loop Quality Verification</h3>
+                <div class="dossier-grid">
+                  <div class="d-cell"><span>Seal Integrity:</span> <strong id="rep-post-status">Optimal Seal ✨</strong></div>
+                  <div class="d-cell"><span>Volumetric Deviation:</span> <strong id="rep-post-dev">+0.17 mm³ (+0.86%)</strong></div>
+                  <div class="d-cell"><span>Margin Flash Area:</span> <strong id="rep-post-flash">1.10 mm²</strong></div>
+                  <div class="d-cell"><span>Material Waste:</span> <strong id="rep-post-waste">1.3%</strong></div>
+                  <div class="d-cell"><span>Feedback Coefficient (k):</span> <strong id="rep-post-k">0.996</strong></div>
+                </div>
+              </div>
+
+              <div class="dossier-footer">
+                <p>Compliant with ISO 4049:2019 Polymer-Based Restorative Materials Standards • Digitally Signed by Greenmix OS</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <script src="app.js"></script>
+<script src="sticker-animations.js"></script>
+</body>
+</html>

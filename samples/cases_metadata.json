@@ -1,0 +1,44 @@
+{
+  "cases": [
+    {
+      "case_id": "case_1_class_1_molar",
+      "title": "Case 1: Mandibular Molar Class I Cavity",
+      "tooth_type": "Mandibular First Molar (#36 / #19)",
+      "preparation_type": "Class I Occlusal Cavity (G.V. Black)",
+      "scale_px_per_mm": 50.0,
+      "calibration_marker_length_mm": 5.0,
+      "calibration_marker_px": 250,
+      "true_metrics": {
+        "length_mm": 6.26,
+        "width_mm": 3.06,
+        "max_depth_mm": 2.66,
+        "mean_depth_mm": 1.91,
+        "surface_area_mm2": 15.3,
+        "volume_mm3": 29.24,
+        "c_factor": 4.8
+      },
+      "preop_image": "samples/case_1_class_1_molar_cavity.png",
+      "postop_image": "samples/case_1_class_1_molar_restored.png"
+    },
+    {
+      "case_id": "case_2_class_2_premolar",
+      "title": "Case 2: Maxillary Premolar Class II MO Cavity",
+      "tooth_type": "Maxillary First Premolar (#24 / #12)",
+      "preparation_type": "Class II Mesio-Occlusal (MO) Preparation",
+      "scale_px_per_mm": 50.0,
+      "calibration_marker_length_mm": 5.0,
+      "calibration_marker_px": 250,
+      "true_metrics": {
+        "length_mm": 4.66,
+        "width_mm": 3.04,
+        "max_depth_mm": 3.42,
+        "mean_depth_mm": 1.98,
+        "surface_area_mm2": 8.79,
+        "volume_mm3": 17.37,
+        "c_factor": 3.2
+      },
+      "preop_image": "samples/case_2_class_2_premolar_cavity.png",
+      "postop_image": "samples/case_2_class_2_premolar_restored.png"
+    }
+  ]
+}

@@ -1,0 +1,84 @@
+{
+  "cavity_metrics": {
+    "length_mm": 6.3,
+    "width_mm": 3.08,
+    "opening_area_mm2": 15.68,
+    "max_depth_mm": 3.09,
+    "mean_depth_mm": 2.25,
+    "volume_mm3": 35.21,
+    "c_factor": 3.25
+  },
+  "restoration_plan": {
+    "material": {
+      "id": "3m_filtek_supreme_ultra",
+      "brand": "3M Oral Care",
+      "name": "Filtek Supreme Ultra",
+      "category": "Universal Nanocomposite",
+      "filler_technology": "Zirconia / Silica Nanoclusters",
+      "filler_weight_percent": 78.5,
+      "filler_volume_percent": 63.3,
+      "density_g_per_cm3": 2.1,
+      "volumetric_shrinkage_percent": 1.9,
+      "shrinkage_stress_mpa": 4.2,
+      "c_factor_sensitivity": "High",
+      "max_increment_depth_mm": 2.0,
+      "recommended_layering": "Oblique incremental layering (\u2264 2.0 mm per increment)",
+      "light_cure_time_sec": 10,
+      "dispensing_type": "Syringe / Compule (0.25g unit)",
+      "color_code": "#0284c7"
+    },
+    "net_cavity_volume_mm3": 35.21,
+    "shrinkage_compensation_pct": 2.11,
+    "compensated_volume_mm3": 35.95,
+    "required_mass_mg": 75.5,
+    "required_mass_g": 0.0755,
+    "total_layers": 3,
+    "layers": [
+      {
+        "layer_number": 1,
+        "layer_name": "Pulpal Floor Base Layer",
+        "thickness_mm": 0.93,
+        "volume_mm3": 9.71,
+        "mass_mg": 20.4,
+        "cure_time_sec": 10,
+        "technique": "Adapt across pulpal floor, eliminate void entrapment, cure."
+      },
+      {
+        "layer_number": 2,
+        "layer_name": "Dentin Body Increment 1",
+        "thickness_mm": 1.08,
+        "volume_mm3": 13.12,
+        "mass_mg": 27.6,
+        "cure_time_sec": 10,
+        "technique": "Oblique incremental cure along opposing wall to break C-factor stress."
+      },
+      {
+        "layer_number": 3,
+        "layer_name": "Occlusal Enamel Cuspal Layer",
+        "thickness_mm": 1.08,
+        "volume_mm3": 13.12,
+        "mass_mg": 27.6,
+        "cure_time_sec": 10,
+        "technique": "Sculpt primary and secondary occlusal anatomy, cure."
+      }
+    ],
+    "dispenser_guidance": {
+      "compule_fraction": 0.3,
+      "syringe_full_turns": 1.27,
+      "digital_micro_steps_uL": 36.0
+    }
+  },
+  "closed_loop_evaluation": {
+    "status": "Optimal",
+    "cavity_net_volume_mm3": 35.21,
+    "restored_volume_mm3": 35.37,
+    "volumetric_deviation_mm3": 0.15,
+    "deviation_percent": 0.43,
+    "flash_area_mm2": 1.02,
+    "dispensed_mass_mg": 75.5,
+    "retained_mass_mg": 74.3,
+    "wasted_mass_mg": 1.2,
+    "material_waste_percent": 1.63,
+    "recommended_next_feedback_factor": 0.998
+  }
+}

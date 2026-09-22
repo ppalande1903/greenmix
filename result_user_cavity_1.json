@@ -1,0 +1,75 @@
+{
+  "cavity_metrics": {
+    "length_mm": 2.98,
+    "width_mm": 6.92,
+    "opening_area_mm2": 10.14,
+    "max_depth_mm": 2.76,
+    "mean_depth_mm": 1.9,
+    "volume_mm3": 19.25,
+    "c_factor": 4.23
+  },
+  "restoration_plan": {
+    "material": {
+      "id": "3m_filtek_supreme_ultra",
+      "brand": "3M Oral Care",
+      "name": "Filtek Supreme Ultra",
+      "category": "Universal Nanocomposite",
+      "filler_technology": "Zirconia / Silica Nanoclusters",
+      "filler_weight_percent": 78.5,
+      "filler_volume_percent": 63.3,
+      "density_g_per_cm3": 2.1,
+      "volumetric_shrinkage_percent": 1.9,
+      "shrinkage_stress_mpa": 4.2,
+      "c_factor_sensitivity": "High",
+      "max_increment_depth_mm": 2.0,
+      "recommended_layering": "Oblique incremental layering (\u2264 2.0 mm per increment)",
+      "light_cure_time_sec": 10,
+      "dispensing_type": "Syringe / Compule (0.25g unit)",
+      "color_code": "#0284c7"
+    },
+    "net_cavity_volume_mm3": 19.25,
+    "shrinkage_compensation_pct": 2.21,
+    "compensated_volume_mm3": 19.67,
+    "required_mass_mg": 41.3,
+    "required_mass_g": 0.0413,
+    "total_layers": 2,
+    "layers": [
+      {
+        "layer_number": 1,
+        "layer_name": "Pulpal Floor Base Layer",
+        "thickness_mm": 0.83,
+        "volume_mm3": 5.31,
+        "mass_mg": 11.2,
+        "cure_time_sec": 10,
+        "technique": "Adapt across pulpal floor, eliminate void entrapment, cure."
+      },
+      {
+        "layer_number": 2,
+        "layer_name": "Occlusal Enamel Cuspal Layer",
+        "thickness_mm": 1.93,
+        "volume_mm3": 14.36,
+        "mass_mg": 30.2,
+        "cure_time_sec": 10,
+        "technique": "Sculpt primary and secondary occlusal anatomy, cure."
+      }
+    ],
+    "dispenser_guidance": {
+      "compule_fraction": 0.17,
+      "syringe_full_turns": 0.7,
+      "digital_micro_steps_uL": 19.7
+    }
+  },
+  "closed_loop_evaluation": {
+    "status": "Optimal",
+    "cavity_net_volume_mm3": 19.25,
+    "restored_volume_mm3": 19.41,
+    "volumetric_deviation_mm3": 0.17,
+    "deviation_percent": 0.86,
+    "flash_area_mm2": 1.1,
+    "dispensed_mass_mg": 41.3,
+    "retained_mass_mg": 40.8,
+    "wasted_mass_mg": 0.5,
+    "material_waste_percent": 1.29,
+    "recommended_next_feedback_factor": 0.996
+  }
+}
